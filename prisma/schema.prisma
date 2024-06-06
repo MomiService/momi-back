@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model SupAdmin {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name     String @map("name")
+  email    String @unique @map("email")
+  password String @map("password")
+
+  role   String  @default("SUPADMIN") @map("role")
+  active Boolean @default(true) @map("active")
+
+  @@map("supadmins")
+}
+
+model Admin {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name     String @map("name")
+  email    String @unique @map("email")
+  password String @map("password")
+
+  role   String  @default("ADMIN") @map("role")
+  active Boolean @default(true) @map("active")
+
+  @@map("admins")
+}
+
+model User {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name         String @map("name")
+  phone_number String @map("phone_number")
+  email        String @map("email")
+  password     String @map("password")
+  EPS          String @map("EPS")
+  city         String @map("city")
+  country      String @default("Colombia") @map("country")
+
+  active Boolean @default(false) @map("active")
+
+  @@map("users")
+}
+
+model Medical {
+  id                    String @id @default(auto()) @map("_id") @db.ObjectId
+  name                  String @map("name")
+  hour_attention_init   String @map("hour_attention_init")
+  hour_attention_finish String @map("hour_attention_finish")
+  email                 String @map("email")
+  password              String @map("password")
+  direction             String @map("direction")
+  city                  String @map("city")
+  country               String @default("Colombia") @map("country")
+
+  active Boolean @default(true) @map("active")
+
+  service     Service   @relation(fields: [serviceId], references: [id])
+  specialty   Specialty @relation(fields: [specialtyId], references: [id])
+  serviceId   String    @db.ObjectId
+  specialtyId String    @db.ObjectId
+
+  @@map("medicals")
+}
+
+model Service {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name_service String @map("name_service")
+  description  String @map("description")
+
+  image_url String      @default("") @map("image_url")
+  Specialty Specialty[]
+  Medical   Medical[]
+
+  @@map("services")
+}
+
+model Specialty {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  name_specialty String @map("name_specialty")
+  description    String @map("description")
+
+  image_url String @default("") @map("image_url")
+
+  service   Service   @relation(fields: [serviceId], references: [id])
+  serviceId String    @db.ObjectId
+  Medical   Medical[]
+
+  @@map("specialties")
+}
