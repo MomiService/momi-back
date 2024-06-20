@@ -48,6 +48,7 @@ model User {
   EPS          String @map("EPS")
   city         String @map("city")
   country      String @default("Colombia") @map("country")
+  role         String @default("USER") @map("role")
 
   active Boolean @default(false) @map("active")
 
@@ -64,6 +65,7 @@ model Medical {
   direction             String @map("direction")
   city                  String @map("city")
   country               String @default("Colombia") @map("country")
+  role                  String @default("MEDICAL") @map("role")
 
   active Boolean @default(true) @map("active")
 

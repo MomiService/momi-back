@@ -22,6 +22,14 @@ export class UsersService extends PrismaService {
     });
   }
 
+  async findOneByEmail(email: string) {
+    return await this.user.findFirst({
+      where: {
+        email,
+      },
+    });
+  }
+
   async update(id: string, updateUserDto: Partial<CreateUserDto>) {
     return await this.user.update({
       data: updateUserDto,

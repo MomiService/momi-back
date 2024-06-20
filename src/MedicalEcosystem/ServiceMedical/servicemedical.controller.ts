@@ -6,15 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ServiceMedicalService } from '../../services/MedicalEcosystem/ServiceMedical/servicemedical.service';
 import { CreateServiceMedicalDto } from './dto';
+import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { RolesGuard } from 'src/guards/roles/roles.guard';
+import { Roles } from 'src/guards/roles/roles.decorator';
 
-@Controller('servicemedical')
+@Controller('servicemedicals')
+@UseGuards(AuthGuard, RolesGuard)
 export class ServiceMedicalController {
   constructor(private readonly serviceMedicalService: ServiceMedicalService) {}
 
   @Post()
+  @Roles(['ADMIN', 'SUPADMIN'])
   async create(@Body() createServiceMedicalDto: CreateServiceMedicalDto) {
     return await this.serviceMedicalService.create(createServiceMedicalDto);
   }
@@ -30,6 +36,7 @@ export class ServiceMedicalController {
   }
 
   @Patch(':id')
+  @Roles(['ADMIN', 'SUPADMIN'])
   async update(
     @Param('id') id: string,
     @Body() updateServiceMedicalDto: Partial<CreateServiceMedicalDto>,
@@ -38,6 +45,7 @@ export class ServiceMedicalController {
   }
 
   @Delete(':id')
+  @Roles(['ADMIN', 'SUPADMIN'])
   async remove(@Param('id') id: string) {
     return await this.serviceMedicalService.remove(id);
   }
