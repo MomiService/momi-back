@@ -22,7 +22,16 @@ export class UsersController {
   @Post()
   @Roles(['ADMIN', 'SUPADMIN'])
   async create(@Body() createUserDto: CreateUserDto) {
-    return await this.usersService.create(createUserDto);
+    const user = await this.usersService.create(createUserDto);
+    return {
+      city: user.city,
+      country: user.country,
+      email: user.email,
+      EPS: user.EPS,
+      name: user.name,
+      phone_number: user.phone_number,
+      role: user.role,
+    };
   }
 
   @Get()
@@ -33,7 +42,17 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.usersService.findOne(id);
+    const user = await this.usersService.findOne(id);
+
+    return {
+      city: user.city,
+      country: user.country,
+      email: user.email,
+      EPS: user.EPS,
+      name: user.name,
+      phone_number: user.phone_number,
+      role: user.role,
+    };
   }
 
   @Patch(':id')

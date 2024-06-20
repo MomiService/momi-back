@@ -1,4 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { LoginDto, singUpDto } from './dto';
 
 import { AuthService } from 'src/services/auths/auths.service';
@@ -13,6 +18,12 @@ export class AuthController {
   }
   @Post('singup')
   async singup(@Body() data: singUpDto) {
-    return await this.authService.singup(data);
+    const sin = await this.authService.singup(data);
+    if (!sin) {
+      throw new InternalServerErrorException();
+    }
+    return {
+      message: 'User Create Susseccfull',
+    };
   }
 }

@@ -1,4 +1,4 @@
-export type Roles = 'ADMIN' | 'SUPADMIN' | 'MEDICAL';
+export type Roles = 'ADMIN' | 'SUPADMIN' | 'MEDICAL' | 'USER';
 export type LoginDto = {
   email: string;
   password: string;
