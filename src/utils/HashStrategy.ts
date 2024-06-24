@@ -14,6 +14,7 @@ export class Hash implements IHash {
   }
 
   async comparate(text1: string, text2: string): Promise<boolean> {
-    return await bycript.compare(text1, text2);
+    const comp = await bycript.compare(text1, text2);
+    return comp;
   }
 }
