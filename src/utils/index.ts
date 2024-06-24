@@ -7,3 +7,7 @@ const Singleton = {
 export function inject<T>(cst: new () => T): T {
   return Singleton[cst.name] as T;
 }
+
+export function getUndefined(): undefined {
+  return;
+}
